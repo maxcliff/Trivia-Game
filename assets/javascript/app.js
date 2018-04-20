@@ -4,23 +4,23 @@ var countStartNumber = 30;
 
 var questions = [{
   question: "Who is third behind Hank Aaron and Babe Ruth in major league career home runs?",
-  answers: ["Reggie Jackson", "Harmon Killebrew", "Bryce Harper", "Willie Mays"],
+  answers: ["Reggie Jackson", "Harmon Killebrew", "Willie Mays"],
   correctAnswer: "Willie Mays",
  
   
 }, {
   question: "Which star is an actor in Pursuit of Happiness?",
-  answers: ["Will Ferrell", "Tupac Shakur", "Jaden Smith", "Posh Spice"],
+  answers: ["Will Ferrell", "Tupac Shakur", "Jaden Smith"],
   correctAnswer: "Jaden Smith",
   
 }, {
   question: "Where is the 2018 World Cup being played?",
-  answers: ["Russia", "Belgium", "United States", "South Africa"],
+  answers: ["Russia", "Belgium", "South Africa"],
   correctAnswer: "Russia",
   
 }, {
   question: "What state is Justin Timberlake from?",
-  answers: ["Mississippi", "Massachussetts", "Texas", "Tennessee"],
+  answers: ["Mississippi", "Massachussetts", "Tennessee"],
   correctAnswer: "Tennessee",
   
 }];
@@ -47,8 +47,6 @@ var game = {
   },
 
   nextQuestion: function() {
-    game.counter = countStartNumber;
-    $("#counter-number").text(game.counter);
     game.currentQuestion++;
     game.loadQuestion();
   },
@@ -121,16 +119,15 @@ var game = {
     
 
     if (game.currentQuestion === questions.length - 1) {
-      setTimeout(game.results, 3 * 1000);
+      setTimeout(game.results, 2* 1000);
     }
     else {
-      setTimeout(game.nextQuestion, 3 * 1000);
+      setTimeout(game.nextQuestion, 2 * 1000);
     }
   },
 
   reset: function() {
     this.currentQuestion = 0;
-    this.counter = countStartNumber;
     this.correct = 0;
     this.incorrect = 0;
     this.loadQuestion();
