@@ -36,6 +36,8 @@ var game = {
 
     trivia.html("<h2>" + questions[this.currentQuestion].question + "</h2>");
 
+    answer = setInterval(game.countdown, 1000);
+
     for (var i = 0; i < questions[this.currentQuestion].answers.length; i++) {
       trivia.append("<button class='answer-button' id='button' data-name='" + questions[this.currentQuestion].answers[i]
       + "'>" + questions[this.currentQuestion].answers[i] + "</button>");
@@ -47,13 +49,14 @@ var game = {
     game.askQuestion();
   },
 
+
   results: function() {
 
     trivia.html("<h3>Your results!</h3>");
 
     trivia.append("<h2>Correct: " + game.correct + "</h2>");
     trivia.append("<h3>Incorrect: " + game.incorrect + "</h3>");
-    trivia.append("<br><button id='start-over'>Start Over</button>");
+    trivia.append("<br><button id='start-over'>Try Again</button>");
   },
 
   clicked: function(click) {
@@ -82,7 +85,7 @@ var game = {
 
   correctAnswer: function() {
 
-    clearInterval(timer);
+    clearInterval(answer);
 
     game.correct++;
 
@@ -99,8 +102,11 @@ var game = {
 
   reset: function() {
     this.currentQuestion = 0;
+
     this.correct = 0;
+
     this.incorrect = 0;
+    
     this.askQuestion();
   }
 };
