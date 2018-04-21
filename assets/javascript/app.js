@@ -22,8 +22,8 @@ var questions = [{
   correctAnswer: "Tennessee",
   
 }];
-
-
+var answer;
+var counter;
 var game = {
 
   questions: questions,
@@ -31,12 +31,22 @@ var game = {
   correct: 0,
   incorrect: 0,
 
+  countdown: function() {
+    game.counter--;
+    $("#counter-number").html(game.counter);
+    if (game.counter === 0) {
+      console.log("TIME UP");
+      game.done();
+    }
+  },
+
 
   askQuestion: function() {
 
+    answer = setInterval(game.countdown, 1000);
+    
     trivia.html("<h2>" + questions[this.currentQuestion].question + "</h2>");
 
-    answer = setInterval(game.countdown, 1000);
 
     for (var i = 0; i < questions[this.currentQuestion].answers.length; i++) {
       trivia.append("<button class='answer-button' id='button' data-name='" + questions[this.currentQuestion].answers[i]
@@ -101,12 +111,13 @@ var game = {
   },
 
   reset: function() {
+
     this.currentQuestion = 0;
 
     this.correct = 0;
 
     this.incorrect = 0;
-    
+
     this.askQuestion();
   }
 };
