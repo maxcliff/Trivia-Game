@@ -95,15 +95,6 @@ var game = {
       }
     });
 
-    $.each($("input[name='question-4']:checked"), function() {
-      if ($(this).val() === questions[4].correctAnswer) {
-        game.correct++;
-      }
-      else {
-        game.incorrect++;
-      }
-    });
-
     this.result();
 
   },
