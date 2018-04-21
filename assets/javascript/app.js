@@ -34,7 +34,7 @@ var game = {
     game.counter--;
     $("#counter-number").html(game.counter);
     if (game.counter === 0) {
-      console.log("TIME UP");
+      console.log("TIMES UP");
       game.done();
     }
   },
@@ -42,7 +42,7 @@ var game = {
   start: function() {
     timer = setInterval(game.countdown, 1000);
 
-    $("#sub-wrapper").prepend("<h2>Time Remaining: <span id='counter-number'>120</span> Seconds</h2>");
+    $("#sub-wrapper").append("<h2>Time Remaining: <span id='counter-number'>120</span> Seconds</h2>");
 
     $("#start").remove();
 
@@ -120,8 +120,6 @@ var game = {
     trivia.append("<h3>Unanswered: " + (questions.length - (this.incorrect + this.correct)) + "</h3>");
   }
 };
-
-// CLICK EVENTS
 
 $(document).on("click", "#start", function() {
   game.start();
