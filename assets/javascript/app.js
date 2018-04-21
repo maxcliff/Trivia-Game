@@ -1,4 +1,4 @@
-var trivia = $("#quiztime");
+var trivia = $("#quiz-area");
 
 var questions = [{
   question: "Who is third behind Hank Aaron and Babe Ruth in major league career home runs?",
@@ -22,14 +22,13 @@ var questions = [{
   correctAnswer: "Tennessee",
   
 }];
-var answer;
-var counter;
+var timer;
+
 var game = {
 
-  questions: questions,
-  currentQuestion: 0,
   correct: 0,
   incorrect: 0,
+  counter: 120,
 
   countdown: function() {
     game.counter--;
@@ -40,97 +39,95 @@ var game = {
     }
   },
 
+  start: function() {
+    timer = setInterval(game.countdown, 1000);
 
-  askQuestion: function() {
+    $("#sub-wrapper").prepend("<h2>Time Remaining: <span id='counter-number'>120</span> Seconds</h2>");
 
-    answer = setInterval(game.countdown, 1000);
-    
-    trivia.html("<h2>" + questions[this.currentQuestion].question + "</h2>");
+    $("#start").remove();
 
-
-    for (var i = 0; i < questions[this.currentQuestion].answers.length; i++) {
-      trivia.append("<button class='answer-button' id='button' data-name='" + questions[this.currentQuestion].answers[i]
-      + "'>" + questions[this.currentQuestion].answers[i] + "</button>");
+    for (var i = 0; i < questions.length; i++) {
+      trivia.append("<h2>" + questions[i].question + "</h2>");
+      for (var j = 0; j < questions[i].answers.length; j++) {
+        trivia.append("<input type='radio' name='question-" + i +
+        "' value='" + questions[i].answers[j] + "''>" + questions[i].answers[j]);
+      }
     }
+
+    trivia.append("<button id='done'>Done</button>");
   },
 
-  nextQuestion: function() {
-    game.currentQuestion++;
-    game.askQuestion();
+  done: function() {
+
+    $.each($("input[name='question-0']:checked"), function() {
+      if ($(this).val() === questions[0].correctAnswer) {
+        game.correct++;
+      }
+      else {
+        game.incorrect++;
+      }
+    });
+
+    $.each($("input[name='question-1']:checked"), function() {
+      if ($(this).val() === questions[1].correctAnswer) {
+        game.correct++;
+      }
+      else {
+        game.incorrect++;
+      }
+    });
+
+    $.each($("input[name='question-2']:checked"), function() {
+      if ($(this).val() === questions[2].correctAnswer) {
+        game.correct++;
+      }
+      else {
+        game.incorrect++;
+      }
+    });
+
+    $.each($("input[name='question-3']:checked"), function() {
+      if ($(this).val() === questions[3].correctAnswer) {
+        game.correct++;
+      }
+      else {
+        game.incorrect++;
+      }
+    });
+
+    $.each($("input[name='question-4']:checked"), function() {
+      if ($(this).val() === questions[4].correctAnswer) {
+        game.correct++;
+      }
+      else {
+        game.incorrect++;
+      }
+    });
+
+    this.result();
+
   },
 
+  result: function() {
 
-  results: function() {
+    clearInterval(timer);
 
-    trivia.html("<h3>Your results!</h3>");
+    $("#sub-wrapper h2").remove();
 
-    trivia.append("<h2>Correct: " + game.correct + "</h2>");
-    trivia.append("<h3>Incorrect: " + game.incorrect + "</h3>");
-    trivia.append("<br><button id='start-over'>Try Again</button>");
-  },
-
-  clicked: function(click) {
-    if ($(click.target).attr("data-name") === questions[this.currentQuestion].correctAnswer) {
-      this.correctAnswer();
-    }
-    else {
-      this.wrongAnswer();
-    }
-  },
-
-  wrongAnswer: function() {
-
-    game.incorrect++;
-
-    trivia.html("<h2>Nope!</h2>");
-    trivia.append(questions[game.currentQuestion].correctAnswer + "<h3> was the correct answer.</h3>");
-    
-    if (game.currentQuestion === questions.length - 1) {
-      setTimeout(game.results, 2 * 1000);
-    }
-    else {
-      setTimeout(game.nextQuestion, 2 * 1000);
-    }
-  },
-
-  correctAnswer: function() {
-
-    clearInterval(answer);
-
-    game.correct++;
-
-    trivia.html("<h2>Correct!</h2>");
-    
-
-    if (game.currentQuestion === questions.length - 1) {
-      setTimeout(game.results, 2* 1000);
-    }
-    else {
-      setTimeout(game.nextQuestion, 2 * 1000);
-    }
-  },
-
-  reset: function() {
-
-    this.currentQuestion = 0;
-
-    this.correct = 0;
-
-    this.incorrect = 0;
-
-    this.askQuestion();
+    trivia.html("<h2>All Done!</h2>");
+    trivia.append("<h3>Correct Answers: " + this.correct + "</h3>");
+    trivia.append("<h3>Incorrect Answers: " + this.incorrect + "</h3>");
+    trivia.append("<h3>Unanswered: " + (questions.length - (this.incorrect + this.correct)) + "</h3>");
   }
 };
 
-
-$(document).on("click", "#start-over", function() {
-  game.reset();
-});
-
-$(document).on("click", ".answer-button", function(click) {
-  game.clicked(click);
-});
+// CLICK EVENTS
 
 $(document).on("click", "#start", function() {
-  game.askQuestion();
+  game.start();
+});
+
+
+$(document).on("click", "#done", function() {
+  game.done();
 });
